@@ -6,6 +6,7 @@
 
 using namespace std;
 
+// quicksort 사용하지않고, algorithm sort 사용하면 틀림
 void quickSort(vector<pair<int, double>>& arr, int left, int right) {
     if (left >= right) return;
     
