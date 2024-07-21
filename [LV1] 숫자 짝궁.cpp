@@ -8,15 +8,8 @@
 
 using namespace std;
 
-bool compared(string a, string b){
-    return a<b;
-}
-
-
 string solution(string X, string Y) {
     string answer = "";
-    map<char, int> X_count_map;
-    map<char, int> Y_count_map;
     vector<char> my_vec;
     
     for(int i=0; i<10; ++i){
