@@ -1,5 +1,8 @@
-test.*
-*.png
-*.jpg
-*.jpeg
-.vscode
+# 모든 파일 무시
+*
+
+# .gitignore에 있는 특정 파일이나 폴더는 제외
+!.gitignore
+
+# .cpp 파일 제외하고 무시하지 않음
+!*.cpp
