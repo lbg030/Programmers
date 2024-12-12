@@ -6,33 +6,40 @@ using namespace std;
 
 //Q: 만약 cycle이 T보다 크면 ?
 vector<int> calculate_divisor(int T);
-int calculate_gcd(int cycle, vector<int> t_divisor);
+int calculate_gcd(int cycle, const vector<int>& t_divisor);
 
-vector<int> calculate_divisor(int T){
-  vector<int> ans = {1, T};
-  vector<bool> check(T/2, true);
-  for(int i=2; i<= (T / 2); i++){
-    // if i 가 2고, T가 12라면, -> 2,4,6 3,6
-    if(T % i == 0){
-      for(int j=1; i*j<=T/2; j++){
-        if(T % (i*j) == 0 && check[i*j]){
-          check[i*j] = false;
-          ans.push_back(i*j);
+vector<int> calculate_divisor(int T) {
+    vector<int> ans;
+    // T의 제곱근까지만 반복하여 약수 찾기
+    for(int i = 1; i * i <= T; i++) {
+        if(T % i == 0) {
+            ans.push_back(i);
+            if(i * i != T) {  // 중복 방지
+                ans.push_back(T / i);
+            }
         }
-      }
     }
-  }
-  return ans;
+    sort(ans.begin(), ans.end());  // 정렬된 결과 반환
+    return ans;
 }
 
-int calculate_gcd(int cycle, vector<int> t_divisor){
-
-  vector<int> res;
-  // T: 14 || n: 1,2,7,14 || cycle : 4 || 3,2, 3
-  for(const auto& n : t_divisor){
-    res.push_back(abs(cycle - n));
-  }
-  return *min_element(res.begin(), res.end());
+int calculate_gcd(int cycle, const vector<int>& t_divisor) {
+    // cycle보다 큰 첫 번째 약수를 찾음
+    auto it = lower_bound(t_divisor.begin(), t_divisor.end(), cycle);
+    
+    // cycle이 가장 작은 약수보다 작은 경우
+    if (it == t_divisor.begin()) {
+        return *it - cycle;
+    }
+    // cycle이 가장 큰 약수보다 큰 경우
+    if (it == t_divisor.end()) {
+        return cycle - t_divisor.back();
+    }
+    
+    // cycle과 가장 가까운 두 약수 사이에 있는 경우
+    int right_diff = *it - cycle;
+    int left_diff = cycle - *(it-1);
+    return min(left_diff, right_diff);
 }
 
 int main() 
